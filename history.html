@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0; padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    <script src="js/p5.min.js"></script>
+    <script>
+        let history = [];
+
+        function rgb(r,g,b) {
+            return color(r,g,b);
+        }
+        function rgba(r,g,b,a) {
+            return color(r,g,b,a*255);
+        }
+
+        function add(color) {
+            let now = localStorage.getItem('pixel-colorHistory') || 'rgb(0,0,0)';
+            now = now.split(';');
+            if (now.indexOf(color) == -1) {
+                now.push(color);
+            }
+            console.log(now.length);
+            if (now.length > 7) {
+                now.slice(now.length-7);
+            }
+            localStorage.setItem('pixel-colorHistory',now.join(';'));
+        }
+
+        function loadHistory() {
+            history = [];
+            let fromStorage = localStorage.getItem('pixel-colorHistory');
+            if (fromStorage) {
+                fromStorage = fromStorage.split(';');
+                for (let color of fromStorage) {
+                    // regex to check is color is a valid rgb or rgba function... (TODO)
+                    history.push([eval(color),color]);
+                }
+            }
+        }
+
+        function setup() {
+            createCanvas(195, 20);
+            update();
+            let last = history[history.length - 1] || [rgb(0,0,0),'rgb(0,0,0)'];
+            window.parent.setPickedColor({_r: last[0]._array[0]*255, _g:last[0]._array[1]*255, _b: last[0]._array[2]*255, _a: last[0]._array[3]}, last[1])
+        }
+
+        function update() {
+            loadHistory();
+            background(51,51,51);
+            let left = (195/7) - 20;
+            history.reverse();
+            for (let i in history) {
+                let x = (i%15)*195/7;
+                stroke(255,255,255,100);
+                fill(history[i][0]);
+                rect((left/2) + x, 0, 20, 15);                
+            }
+            history.reverse();
+        }
+
+        function mouseClicked() {
+            let w = 20;
+            let left = (195/7) - w;
+            let triggerUpdate = false;
+            if (mouseY > 0 && mouseY < height) {
+                history.reverse();
+                for (let i in history) {
+                    let x = (left/2) + ((i%15)*195/7);
+                    if (mouseX > x && mouseX < x + w) {
+                        window.parent.setPickedColor({_r: history[i][0]._array[0]*255, _g: history[i][0]._array[1]*255, _b: history[i][0]._array[2]*255, _a: history[i][0]._array[3]}, history[i][1]);
+                        triggerUpdate = true;
+                    }  
+                }
+                history.reverse();
+            }
+            if(triggerUpdate) {
+                update();
+            }
+        }
+    </script>
+</body>
+</html>

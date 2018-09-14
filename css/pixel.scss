@@ -1,0 +1,68 @@
+html, body {
+    margin: 0; padding: 0;
+    overflow: hidden;
+}
+.container {
+    display: grid;
+    grid-template-columns: 640px 195px;
+    grid-template-rows: 28px 250px 20px auto;
+    grid-template-areas: 
+        "canvas tools"
+        "canvas colorPicker"
+        "canvas history"
+        "canvas save";
+    grid-gap: 15px;
+
+}
+#canvas {
+    grid-area: canvas;
+    width: 640px;
+}
+#colorPicker {
+    grid-area: colorPicker;
+    width: 195px;
+}
+#history {
+    grid-area: history;
+    width: 195px;
+}
+#tools {
+    grid-area: tools;
+    width: 195px;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+
+        li {
+            padding: 0 5px;
+            display: inline-block;
+
+            img {
+                width: 28px;
+                cursor: pointer;
+                box-sizing: border-box;
+
+                &.selected {
+                    border:1px solid #ddd;
+                    border-radius: 4px;
+                    padding: 2px;
+                }
+            }
+        }
+    }
+}
+#p5save {
+    grid-area: save;
+    width: 195px;
+    text-align: center;
+    img {
+        width: 28px;
+        cursor: pointer;
+    }
+}
+iframe {
+    border: 0;
+}

@@ -1,0 +1,24 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  background-color: #333333;
+}
+
+iframe {
+  width: calc(640px + 15px + 195px);
+  height: 640px;
+  border: 0;
+}
+/*# sourceMappingURL=main.css.map */

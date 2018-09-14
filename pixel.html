@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pixel</title>
+    <link rel="stylesheet" href="css/pixel.css">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="js/spectrum.js"></script>
+    <link rel="stylesheet" href="css/spectrum.css">
+</head>
+<body>
+    <div class="container">
+        <div id="canvas"></div>
+        <div id="colorPicker">
+            <input type='text'/>
+        </div>
+        <div id="history">
+            <iframe src="history.html"></iframe>
+        </div>
+        <div id="tools">
+            <ul>
+                <li><img src="img/brush.svg" alt="brush" id="t-brush" class="selected"></li>
+                <li><img src="img/eraser.svg" alt="eraser" id="t-eraser"></li>
+                <li><img src="img/ruler.svg" alt="ruler" id="t-ruler"></li>
+                <li><img src="img/bucket.svg" alt="bucket" id="t-bucket"></li>
+            </ul>
+        </div>
+        <div id="p5save">
+            <img src="img/save.svg" alt="save">
+        </div>
+    </div>
+    <script>
+        $("#colorPicker input").spectrum({
+            flat: true,
+            showInput: true,
+            showAlpha: true,
+            localStorageKey: 'pixel-colorPicker',
+            preferredFormat: 'hex',
+            clickoutFiresChange: false,
+            change: function(color) {
+                pickedColor = color;
+                // push to hitsory
+                document.querySelector('iframe').contentWindow.add(color.toRgbString());
+
+                document.querySelector('iframe').contentWindow.update();
+                //console.log(color.toHexString()); // #ff0000
+            }
+        });
+    </script>
+    <script src="js/p5.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
